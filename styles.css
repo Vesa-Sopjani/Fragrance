@@ -1,20 +1,21 @@
-/* Reset */
 body, ul, li, p, h1, h2, h3 {
     margin: 0;
     padding: 0;
     list-style: none;
   }
   
-  /* Global */
   body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
+    color:#ee0b91;
+    
   }
   
   header {
     background: #f5f5f5;
     padding: 10px 20px;
+    background: rgb(238, 114, 134);
+    color: white;
   }
   
   nav ul {
@@ -31,7 +32,7 @@ body, ul, li, p, h1, h2, h3 {
     padding: 8px 15px;
     border: none;
     background: #007BFF;
-    color: #fff;
+    color:white;
     border-radius: 5px;
     cursor: pointer;
   }
@@ -39,26 +40,20 @@ body, ul, li, p, h1, h2, h3 {
   .hero {
     text-align: center;
     padding: 50px 20px;
-    background: #eaf4ff;
+    background-image: url('Images/bg.jpg');
+   background-size: contain;
+   
   }
   
-  .hero .buttons {
-    margin-top: 20px;
-  }
-  
-  .hero button {
-    padding: 10px 20px;
-    margin: 5px;
-    background: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
+
   .gallery {
     padding: 40px 20px;
     text-align: center;
+    color: #ee0b91;
+    
+  }
+  .gallery p{
+     color: pink;
   }
   
   .gallery-grid {
@@ -84,7 +79,7 @@ body, ul, li, p, h1, h2, h3 {
   }
   
   footer {
-    background: #333;
+    background: rgb(238, 114, 134);
     color: #fff;
     padding: 20px;
     text-align: center;

@@ -9,7 +9,7 @@
 <body>
   <div class="backgroundi">
     <div class="form-container">
-      <form class="login-form">
+      <form class="login-form" id="login-form">
 
         <h2>Log In</h2>
         <div class="form-group">
@@ -30,7 +30,7 @@
         </div>
         <br>
         
-        <button type="submit" class="register-btn">Log In</button>
+        <button type="submit" id="register-btn" class="register-btn">Log In</button>
         <br>
         <br>
         <p>Don't have an account? 
@@ -39,5 +39,54 @@
       </form>
     </div>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function (event){
+        const submit= document.getElementById('register-btn');
+
+        const validate=(event) => {
+            event.preventDefault();
+
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+
+            if(emailInput.value === ""){
+                alert("Please enter your Email.");
+                emailInput.focus();
+                return false;
+            }
+
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(emailInput.value.trim())) {
+                alert("Enter a valid Email.");
+                emailInput.focus();
+                return false;
+            }
+
+
+            if (emailInput.value.trim() !== emailInput.value.trim().toLowerCase()) {
+               alert("Email must be in lowercase only.");
+               emailInput.focus();
+               return false;
+            }
+
+            if(passwordInput.value.trim() === "") {
+                alert("Please Enter your password.");
+                passwordInput.focus();
+                return false;
+            }
+
+            if(passwordInput.value.length < 8) {
+                alert("Your password must be at least 8 characters long.");
+                passwordInput.focus();
+                return false;
+            }
+
+            alert("Log In completed successfully!");
+            document.getElementById('login-form').submit();
+        };
+
+        submit.addEventListener("click", validate);
+    });
+  </script>
 </body>
 </html>

@@ -4,6 +4,11 @@
             padding: 0;
             background-color: #f4f4f4;
             color: #333;
+           
+
+        }
+        body ul,li{
+            list-style: none;
         }
 
         header {
@@ -15,22 +20,15 @@
           
           nav ul {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: right;
+            align-items:center;
           }
           
           nav ul li {
             margin: 0 10px;
           }
           
-          nav button {
-            padding: 8px 15px;
-            border: none;
-            background: #007BFF;
-            color:white;
-            border-radius: 5px;
-            cursor: pointer;
-          }
+         
 
         .container {
             padding: 20px;
@@ -38,6 +36,17 @@
         .container h1{
         color: pink;
         }
+        
+          
+          .text {
+            color: white;
+            font-size: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+          }
 
         .title-section {
             text-align: center;
@@ -87,7 +96,6 @@
         }
         .card p{
             display: flex;
-            vertical-align: top;
             align-items: center;
         }
 

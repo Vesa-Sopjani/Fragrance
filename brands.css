@@ -1,9 +1,10 @@
  body {
-            font-family: Arial, sans-serif;
+            font-family: Garamond, serif;
             margin: 0;
             padding: 0;
-            background-color: rgb(251, 224, 228);
-            color: #333;
+            background-color: rgb(0, 0, 0);
+            color: #757575;
+            text-shadow: #ffffff;
            
 
         }
@@ -12,14 +13,31 @@
         }
 
         header {
-            background: #f5f5f5;
+            background: #000000;
             padding: 10px 20px;
-            background: rgb(238, 114, 134);
+            background: #rgb(103, 20, 34);
             color: white;
           }
-          
-          nav ul {
+
+          nav {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            padding: 0 20px;
+            background-color: rgb(103, 20, 34);
+
+          }
+
+          nav .frag {
+            font-size: 20px;
+            font-family: 'Almendra';font-size: 22px;
+            }
+          
+          nav .nav-lista {
+            display: flex;
+            margin: 0;
+            padding: 0;
             justify-content: right;
             align-items:center;
           }
@@ -28,13 +46,27 @@
             margin: 0 10px;
           }
           
+          .click-div {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            display: inline-block;
+            vertical-align: top;
+            width: 48%;
+          }
+
+          .click-div:hover {
+            transform: scale(1.05);
+          }
+
+          .click-div:active {
+            transform: scale(0.95);
+          }
          
 
         .container {
             padding: 20px;
         }
         .container h1{
-        color: pink;
+        color: rgb(103, 20, 34);
         }
         
           
@@ -59,7 +91,8 @@
 
         .title-section p {
             font-size: 1.2rem;
-            color: #666;
+            color: #939393;
+            text-shadow: #ffffff;
         }
 
         
@@ -72,22 +105,23 @@
         .section h2 {
             font-size: 1.5rem;
             margin-bottom: 10px;
+            text-emphasis-color: #ffffff;
         }
 
         .card-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 10px;
         }
 
         .card {
-            background: #fff;
+            background: #010000;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 15px;
             flex: 1;
             min-width: 200px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.322);
         }
         .card1 {
             background-image: url('Images/kilian.jpg');
@@ -98,7 +132,7 @@
           position: absolute;
           top: 50%;
           left: 50%;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+          text-shadow: 2px 2px 4px rgb(251, 249, 249);
         }
 
         .card h3 {
@@ -113,7 +147,7 @@
         }
 
         .footer {
-            background:pink;
+            background:rgb(103, 20, 34);
             border-top: 1px solid #ddd;
             padding: 20px;
             display: flex;

@@ -30,7 +30,7 @@
         </div>
         <br>
         
-        <button type="submit" id="register-btn" class="register-btn">Log In</button>
+        <button type="submit" id="register-btn" class="register-btn" onclick="goToLogin()">Log In</button>
         <br>
         <br>
         <p>Don't have an account? 
@@ -87,6 +87,9 @@
 
         submit.addEventListener("click", validate);
     });
+    function goToLogin() {
+    window.location.href = 'Home.html'; 
+          }
   </script>
 </body>
 </html>

@@ -33,7 +33,7 @@
 
         <br>
         
-        <button type="submit" id="register-btn" class="register-btn">Sign In</button>
+        <button type="submit" id="register-btn" class="register-btn" onclick="goToLogin()">Sign up</button>
         
         
       </form>
@@ -102,6 +102,9 @@
 
           submit.addEventListener("click", validate);
           });
+          function goToLogin() {
+    window.location.href = 'Login.html'; 
+          }
 
   </script>
 </body>

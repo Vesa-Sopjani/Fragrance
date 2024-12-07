@@ -17,7 +17,7 @@
   
 
   .background {
-    background-image: url('C:/Users/HELLO/Documents/GitHub/Fragrance/Fragrance/Images/bottle.jpg'); 
+    background-image: url('Images/bottle.jpg'); 
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -27,7 +27,7 @@
     align-items: center;
   }
   .backgroundi {
-    background-image: url('C:/Users/HELLO/Documents/GitHub/Fragrance/Fragrance/Images/lgn1.jpg'); 
+    background-image: url('Images/lgn1.jpg'); 
     background-size: cover;
     background-position: center;
     height: 100vh;

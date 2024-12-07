@@ -17,7 +17,7 @@
   
 
   .background {
-    background-image: url('Images/bottle.jpg'); 
+    background-image: url('Images/l.jpg'); 
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -27,7 +27,7 @@
     align-items: center;
   }
   .backgroundi {
-    background-image: url('Images/lgn1.jpg'); 
+    background-image: url('Images/l.jpg'); 
     background-size: cover;
     background-position: center;
     height: 100vh;

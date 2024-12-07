@@ -8,10 +8,9 @@
 <body>
     <header>
         <nav>
-            <div class="frag">Fragrance</div>
+            <div class="frag" id="fillimi-i-faqes">Fragrance</div>
           <ul class="nav-lista">
             <li>Home</li>
-            <li>Products</li>
             <li>Brands</li>
             <li>About Us</li>
           </ul>
@@ -60,7 +59,7 @@
                 </div>
                 <div class="card" style=" background-image: url('Images/versace.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat ;">
                     <h3 style="color:rgb(255, 255, 255); text-shadow: -2px 1px 2px rgb(240, 174, 221);">Versace</h3>
-                    <a href="https://www.chanel.com/us/fragrance/" target="_blank"> <img src="Images/versace.jpg" alt="" style=" width: 100%; height: 250px; object-fit: cover; border-radius: 15px ; box-shadow: 5px 5px 15px rgb(255, 255, 255);"></a>
+                    <a href="https://www.versace.com/al/en/fragrances/" target="_blank"> <img src="Images/versace.jpg" alt="" style=" width: 100%; height: 250px; object-fit: cover; border-radius: 15px ; box-shadow: 5px 5px 15px rgb(255, 255, 255);"></a>
                     <p style=" color:rgb(255, 240, 252); text-shadow: 1px 2px 4px rgb(0, 0, 0);">Versace fragrances embody Italian luxury and bold sophistication. From the fresh elegance of 'Bright Crystal' to the powerful allure of 'Eros,' each scent reflects confidence, glamour, and modern sensuality.</p>
                 </div>
                 <div class="card" style=" background-image: url('Images/tomford'); background-size: cover; background-position: center; background-repeat: no-repeat ;">
@@ -120,6 +119,10 @@
             </div>
         
     </div>
+    <div id="button-div">
+    <button type="submit" id="jump-button" onclick="document.getElementById('fillimi-i-faqes').scrollIntoView({behavior: 'smooth'});" class="jump-button" >Jump back at Top</button>
+    </div>
+    <br>
     <footer class="footer">
         <div>
             <h4>Use Cases</h4>

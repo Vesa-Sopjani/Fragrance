@@ -111,7 +111,7 @@
         .card-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 20px;
         }
 
         .card {
@@ -144,6 +144,34 @@
             align-items: center;
             font-style: italic;
         
+        } 
+        
+        .button-div {
+          display: flex;
+          justify-content: center;
+          left: 30px;
+          text-align: center;
+          margin-top: 50px;
+          padding: 20px 0;
+        }
+
+        .jump-button {
+          left: 50%;
+          transform: translateX(320%);
+          padding: 10px 20px;
+          background-color: #000000;
+          color: white;
+          font-family: Garamond, serif;
+          font-size: 16px;
+          font-weight: bold;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+        
+        .jump-button:hover {
+          background-color: rgb(103, 20, 34);
         }
 
         .footer {

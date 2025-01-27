@@ -1,3 +1,29 @@
+<?php
+include_once 'Database.php';
+include_once 'User.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $db = new Database();
+    $connection = $db->getConnection();
+    $user = new User($connection);
+
+    // Get form data
+    $name = $_POST['name'];
+    $surname = $_POST['surname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Register the user
+    if ($user->register($name, $surname, $email, $password)) {
+        header("Location: login.php"); // Redirect to login page
+        exit;
+    } else {
+        echo "Error registering user!";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,7 +129,7 @@
           submit.addEventListener("click", validate);
           });
           function goToLogin() {
-    window.location.href = 'Login.html'; 
+    window.location.href = 'login.php'; 
           }
 
   </script>

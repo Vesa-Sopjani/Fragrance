@@ -3,25 +3,27 @@ session_start();
 include_once 'Database.php';
 include_once 'User.php';
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $db = new Database();
     $connection = $db->getConnection();
     $user = new User($connection);
 
-    // Get form data
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Attempt to log in
     if ($user->login($email, $password)) {
-        header("Location: Home.php"); // Redirect to home page
-        exit;
+        $_SESSION['user_id'] = $user->getId(); 
+        $_SESSION['email'] = $email;
+        header("Location: Home.php");
+        exit();
     } else {
-        echo "Invalid login credentials!";
+        $error = "Invalid email or password!";
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,87 +36,68 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
   <div class="backgroundi">
     <div class="form-container">
-      <form class="login-form" id="login-form">
-
+      <form class="login-form" id="login-form" method="POST" action="">
         <h2>Log In</h2>
+        
+        <?php if (!empty($error)): ?>
+          <div class="error" style="color: red;"><?php echo $error; ?></div>
+        <?php endif; ?>
+
         <div class="form-group">
-          <label for="email" class="tekst" id="tekst">Email</label>
+          <label for="email" class="tekst">Email</label>
           <input type="email" id="email" name="email" placeholder="Enter your email" required>
         </div>
 
         <div class="form-group">
-          <label for="password" class="tekst" id="tekst" >Password</label>
+          <label for="password" class="tekst">Password</label>
           <input type="password" id="password" name="password" placeholder="Enter your password" required>
         </div>
-        
 
         <div style="display: flex; align-items: center;">
           <input type="checkbox" id="rememberMe" name="rememberMe">
           <label for="rememberMe" style="margin-left: 5px;"> Remember me</label>
-          
         </div>
+
         <br>
         
-        <button type="submit" id="register-btn" class="register-btn" onclick="goToLogin()">Log In</button>
-        <br>
-        <br>
+        <button type="submit" id="login-btn" class="register-btn">Log In</button>
+        
+        <br><br>
         <p>Don't have an account? 
-          <a href="register.php" style="color: #ff0000; text-decoration: underline;" >Sign in</p>
-        
+          <a href="register.php" style="color: #ff0000; text-decoration: underline;">Sign up</a>
+        </p>
       </form>
     </div>
   </div>
+
   <script>
-    document.addEventListener("DOMContentLoaded", function (event){
-        const submit= document.getElementById('register-btn');
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.getElementById('login-form');
 
-        const validate=(event) => {
-            event.preventDefault();
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
 
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        let errorMessages = [];
 
-            if(emailInput.value === ""){
-                alert("Please enter your Email.");
-                emailInput.focus();
-                return false;
-            }
+        // Validation logic
+        if (!emailInput.value.trim()) errorMessages.push("Email is required.");
+        if (!passwordInput.value.trim()) errorMessages.push("Password is required.");
 
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (!emailRegex.test(emailInput.value.trim())) {
-                alert("Enter a valid Email.");
-                emailInput.focus();
-                return false;
-            }
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(emailInput.value.trim())) {
+          errorMessages.push("Invalid email format.");
+        }
 
+        if (errorMessages.length > 0) {
+          alert(errorMessages.join("\n"));
+          return;
+        }
 
-            if (emailInput.value.trim() !== emailInput.value.trim().toLowerCase()) {
-               alert("Email must be in lowercase only.");
-               emailInput.focus();
-               return false;
-            }
-
-            if(passwordInput.value.trim() === "") {
-                alert("Please Enter your password.");
-                passwordInput.focus();
-                return false;
-            }
-
-            if(passwordInput.value.length < 8) {
-                alert("Your password must be at least 8 characters long.");
-                passwordInput.focus();
-                return false;
-            }
-
-            alert("Log In completed successfully!");
-            document.getElementById('login-form').submit();
-        };
-
-        submit.addEventListener("click", validate);
+        form.submit(); 
+      });
     });
-    function goToLogin() {
-    window.location.href = 'Home.php'; 
-          }
   </script>
 </body>
 </html>

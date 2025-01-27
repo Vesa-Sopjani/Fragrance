@@ -1,16 +1,16 @@
 .slider {
   width: 100%;
-  max-width: 800px;  /* Define a maximum width for the slider */
-  height: 400px;  /* Define a fixed height for all images */
+  max-width: 800px;  
+  height: 400px;  
   margin: 50px auto;
   position: relative;
   overflow: hidden;
 }
 
 #slideshow {
-  width: 100%;  /* Take up the full width of the slider */
-  height: 100%; /* Make the image fit the fixed height */
-  object-fit: cover; /* Ensure the image covers the entire container without stretching */
+  width: 100%;  
+  height: 100%; 
+  object-fit: cover; 
 }
 
 button {

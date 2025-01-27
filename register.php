@@ -1,52 +1,68 @@
 <?php
+session_start();
 include_once 'Database.php';
 include_once 'User.php';
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $db = new Database();
     $connection = $db->getConnection();
     $user = new User($connection);
 
-    // Get form data
-    $name = $_POST['name'];
-    $surname = $_POST['surname'];
-    $email = $_POST['email'];
+    $name = filter_input(INPUT_POST, 'emri', FILTER_SANITIZE_STRING);
+    $surname = filter_input(INPUT_POST, 'mbiemri', FILTER_SANITIZE_STRING);
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
 
-    // Register the user
-    if ($user->register($name, $surname, $email, $password)) {
-        header("Location: login.php"); // Redirect to login page
-        exit;
+    $errors = [];
+    if (empty($name)) $errors[] = "Name is required.";
+    if (empty($surname)) $errors[] = "Surname is required.";
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Invalid email format.";
+    if (strlen($password) < 8) $errors[] = "Password must be at least 8 characters.";
+
+    if (empty($errors)) {
+        if ($user->register($name, $surname, $email, $password)) {
+            header("Location: login.php");
+            exit();
+        } else {
+            $error = "Registration failed. Email might already exist.";
+        }
     } else {
-        echo "Error registering user!";
+        $error = implode("<br>", $errors);
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign in Form</title>
+  <title>Sign Up Form</title>
   <link rel="stylesheet" href="signin.css">
 </head>
 <body>
   <div class="background">
     <div class="form-container">
-      <form class="signin-form" id="signin-form">
-
-        <h2>Sign In</h2>
+      <form class="signin-form" id="signin-form" method="POST">
+        <h2>Sign Up</h2>
         
+        <?php if (!empty($error)): ?>
+          <div class="error" style="color: red;"><?php echo $error; ?></div>
+        <?php endif; ?>
+
         <div class="form-group">
-          <label for="emri"  class="tekst">Emri</label>
+          <label for="emri" class="tekst">Emri</label>
           <input type="text" id="emri" name="emri" placeholder="Enter your name" required>
         </div>
+        
         <div class="form-group">
           <label for="mbiemri" class="tekst">Mbiemri</label>
           <input type="text" id="mbiemri" name="mbiemri" placeholder="Enter your last name" required>
         </div>
+        
         <div class="form-group">
           <label for="email" class="tekst">Email</label>
           <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -57,19 +73,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <input type="password" id="password" name="password" placeholder="Enter your password" required>
         </div>
 
-        <br>
-        
-        <button type="submit" id="register-btn" class="register-btn" onclick="goToLogin()">Sign up</button>
-        
-        
+        <button type="submit" id="register-btn" class="register-btn">Sign Up</button>
       </form>
     </div>
   </div>
-  <script>
-    document.addEventListener("DOMContentLoaded", function (event) {
-      const submit = document.getElementById('register-btn');
 
-      const validate=(event) => {
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.getElementById('signin-form');
+
+      form.addEventListener('submit', function(event) {
         event.preventDefault();
 
         const emriInput = document.getElementById('emri');
@@ -77,61 +90,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
 
-        if (emriInput.value === "") {
-          alert("Please enter your name.");
-          emriInput.focus();
-          return false;
+        let errorMessages = [];
+
+        if (!emriInput.value.trim()) {
+          errorMessages.push("Please enter your nigga.");
         }
 
-        if (mbiemriInput.value.trim() === "") {
-          alert("Enter your last name.");
-          mbiemriInput.focus();
-          return false;
-        }
-
-        if (emailInput.value.trim() === "") {
-          alert("Enter your Email.");
-          emailInput.focus();
-          return false;
+        if (!mbiemriInput.value.trim()) {
+          errorMessages.push("Enter your last name.");
         }
 
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(emailInput.value.trim())) {
-            alert("Please enter a valid Email.");
-            emailInput.focus();
-           return false;
+          errorMessages.push("Please enter a valid email.");
         }
 
+        if (emailInput.value.trim() !== emailInput.value.trim().toLowerCase()) {
+          errorMessages.push("Email must be in lowercase.");
+        }
 
-            if (emailInput.value.trim() !== emailInput.value.trim().toLowerCase()) {
-               alert("Email must be in lowercase only.");
-               emailInput.focus();
-               return false;
-            }
+        if (passwordInput.value.trim().length < 8) {
+          errorMessages.push("Password must be at least 8 characters.");
+        }
 
+        if (errorMessages.length > 0) {
+          alert(errorMessages.join("\n"));
+          return; 
+        }
 
-            if (passwordInput.value.trim() === "") {
-              alert("Enter a password.");
-              passwordInput.focus();
-              return false;
-            }
-
-            if(passwordInput.value.trim().length < 8) {
-              alert("Your password must be at least 8 characters long.");
-              passwordInput.focus();
-              return false;
-            } 
-
-            alert("Sign In completed successfully!");
-            document.getElementById('signin-form').submit();
-          };
-
-          submit.addEventListener("click", validate);
-          });
-          function goToLogin() {
-    window.location.href = 'login.php'; 
-          }
-
+        form.submit(); 
+      });
+    });
   </script>
 </body>
 </html>

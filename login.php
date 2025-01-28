@@ -1,26 +1,29 @@
 <?php
 session_start();
+
 include_once 'Database.php';
 include_once 'User.php';
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $db = new Database();
     $connection = $db->getConnection();
     $user = new User($connection);
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
 
     if ($user->login($email, $password)) {
-        $_SESSION['user_id'] = $user->getId(); 
-        $_SESSION['email'] = $email;
-        header("Location: Home.php");
+      echo "Login successful!<br>";
+      echo "Session User ID: " . $_SESSION['user_id'] . "<br>";
+      echo "Session Email: " . $_SESSION['email'] . "<br>";
+      
+      header("Refresh: 3; URL=Home.php"); 
+      exit;
+  }
+  
+     else {
+        echo "Invalid login credentials!";
         exit();
-    } else {
-        $error = "Invalid email or password!";
     }
 }
 ?>

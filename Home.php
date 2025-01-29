@@ -82,9 +82,9 @@ echo "<a href='logout.php'>Logout</a>";
         <h4>Socials</h4>
         <a href="https://www.instagram.com" style="color: black;" target="_blank"><img src="Images/ig.png" alt="" style="height: 30px; width: 30px;"></a>
         
-       <a href="https://www.facebook.com" style="color: black;"> <img src="Images/fb.png" alt="" style="height: 30px; width: 30px;"></a>
+       <a href="https://www.facebook.com" style="color: black;"  target="_blank"> <img src="Images/fb.png" alt="" style="height: 30px; width: 30px;"></a>
        
-       <a href="https://www.x.com" style="color: black;"><img src="Images/x.png" alt="" style="height: 30px; width: 30px;"></a>
+       <a href="https://www.x.com" style="color: black;"  target="_blank"><img src="Images/x.png" alt="" style="height: 30px; width: 30px;"></a>
     </div>
 
 </footer>

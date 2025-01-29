@@ -88,22 +88,24 @@ class UserRepository {
 
     public function login($email, $password) {
         try {
-            $query = "SELECT user_id, name, surname, email, password FROM user WHERE email = :email";
+            $query = "SELECT user_id, name, surname, email, password, role FROM user WHERE email = :email";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(':email', $email, PDO::PARAM_STR);
             $stmt->execute();
-
+    
             if ($stmt->rowCount() > 0) {
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                
                 if (password_verify($password, $row['password'])) {
                     session_start();
+    
                     $_SESSION['user_id'] = $row['user_id'];
                     $_SESSION['email'] = $row['email'];
-
-                    return true;
-                }
+                    $_SESSION['role'] = $row['role']; 
+    
+                    return true; 
             }
-            return false;
+            return false; 
         } catch (PDOException $e) {
             echo "Error in login: " . $e->getMessage();
             return false;

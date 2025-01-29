@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    echo "Access denied. Only admins can view this page.";
+    header("Refresh: 3; URL=../View/login.php"); 
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,6 +1,6 @@
 <?php
 
-
+session_start();
 class User {
 
     private $name;       
@@ -35,6 +35,13 @@ class User {
     function getPassword() {
         return $this->password;
     }
+
+    function setSessionRole($user) {
+        if (isset($user['role'])) { 
+            $_SESSION['role'] = $user['role'];
+        }
+
 }
+
 
 ?>

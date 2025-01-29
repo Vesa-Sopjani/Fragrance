@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 if (!isset($_SESSION['user_id'])) {
     echo "You are not logged in! Redirecting to login...<br>";
     print_r($_SESSION); 
-    header("Refresh: 5; URL=login.php"); 
+    header("Refresh: 5; URL=../View/login.php"); 
     exit;
 }
 

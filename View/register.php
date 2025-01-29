@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $user = new User($name, $surname, $email, $password);
 
       if ($userRepository->insertUser($user)) {
-          header("Location: ../login.php");
+          header("Location: ../View/login.php");
           exit();
       } else {
           $error = "Registration failed. Email might already exist.";

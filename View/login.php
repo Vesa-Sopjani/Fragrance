@@ -7,17 +7,17 @@ include_once '../User.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $db = new Database();
     $connection = $db->getConnection();
-    $user = new User($connection);
+   
 
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
-
+    $user = new userRepository($connection);
     if ($user->login($email, $password)) {
       echo "Login successful!<br>";
       echo "Session User ID: " . $_SESSION['user_id'] . "<br>";
       echo "Session Email: " . $_SESSION['email'] . "<br>";
       
-      header("Refresh: 3; URL=Home.php"); 
+      header("Refresh: 3; URL=../Home.php"); 
       exit;
   }
   

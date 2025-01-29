@@ -1,15 +1,16 @@
 <?php
 session_start();
-include_once 'Database.php';
-include_once 'User.php';
+include_once '../Database/databaseConnection.php';
+include_once '../Model/user.php';
+include_once '../Repository/UserRepository.php';
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $db = new Database();
+    $db = new databaseConnection();
     $connection = $db->getConnection();
-    $user = new User($connection);
+    $userRepository = new userRepository($connection);  
 
     $name = filter_input(INPUT_POST, 'emri', FILTER_SANITIZE_STRING);
     $surname = filter_input(INPUT_POST, 'mbiemri', FILTER_SANITIZE_STRING);
@@ -23,15 +24,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (strlen($password) < 8) $errors[] = "Password must be at least 8 characters.";
 
     if (empty($errors)) {
-        if ($user->register($name, $surname, $email, $password)) {
-            header("Location: login.php");
-            exit();
-        } else {
-            $error = "Registration failed. Email might already exist.";
-        }
-    } else {
-        $error = implode("<br>", $errors);
-    }
+      $user = new User($name, $surname, $email, $password);
+
+      if ($userRepository->insertUser($user)) {
+          header("Location: ../login.php");
+          exit();
+      } else {
+          $error = "Registration failed. Email might already exist.";
+      }
+  } else {
+      $error = implode("<br>", $errors);
+  }
 }
 ?>
 
@@ -46,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
   <div class="background">
     <div class="form-container">
-      <form class="signin-form" id="signin-form" method="POST">
+      <form class="signin-form" id="signin-form" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
         <h2>Sign Up</h2>
         
         <?php if (!empty($error)): ?>
@@ -93,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         let errorMessages = [];
 
         if (!emriInput.value.trim()) {
-          errorMessages.push("Please enter your nigga.");
+          errorMessages.push("Please enter your name.");
         }
 
         if (!mbiemriInput.value.trim()) {
@@ -122,5 +125,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       });
     });
   </script>
+  <?php include_once '../Controller/registerController.php';?>
 </body>
 </html>

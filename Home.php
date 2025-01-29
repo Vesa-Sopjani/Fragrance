@@ -9,9 +9,10 @@ if (!isset($_SESSION['user_id'])) {
     header("Refresh: 5; URL=../View/login.php"); 
     exit;
 }
-
-echo "Welcome, " . $_SESSION['email'] . "!<br>";
-echo "<a href='logout.php'>Logout</a>"; 
+echo "<div style='display: flex; justify-content: space-between; align-items: center; color: white; background-color: rgb(103, 20, 34); padding: 10px;'>";
+echo "Welcome, " . $_SESSION['email'] . "!</span>";
+echo "<a href='logout.php' style='color: white; text-decoration: none;'>Logout</a>";
+echo "</div>"; 
 ?>
 
 <!DOCTYPE html>

@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-include_once 'Database.php';
-include_once 'User.php';
+include_once '../Database.php';
+include_once '../User.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $db = new Database();
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Form</title>
-  <link rel="stylesheet" href="signin.css">
+  <link rel="stylesheet" href="../css/signin.css">
 </head>
 <body>
   <div class="backgroundi">

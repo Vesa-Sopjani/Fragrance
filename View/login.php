@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       echo "Session User ID: " . $_SESSION['user_id'] . "<br>";
       echo "Session Email: " . $_SESSION['email'] . "<br>";
       
-      header("Refresh: 3; URL=Home.php"); 
+      header("Refresh: 3; URL=../Home.php"); 
       exit;
   }
   

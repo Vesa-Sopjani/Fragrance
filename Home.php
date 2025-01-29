@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 if (!isset($_SESSION['user_id'])) {
     echo "You are not logged in! Redirecting to login...<br>";
     print_r($_SESSION); 
-    header("Refresh: 5; URL=login.php"); 
+    header("Refresh: 5; URL=../View/login.php"); 
     exit;
 }
 
@@ -82,9 +82,9 @@ echo "<a href='logout.php'>Logout</a>";
         <h4>Socials</h4>
         <a href="https://www.instagram.com" style="color: black;" target="_blank"><img src="Images/ig.png" alt="" style="height: 30px; width: 30px;"></a>
         
-       <a href="https://www.facebook.com" style="color: black;"> <img src="Images/fb.png" alt="" style="height: 30px; width: 30px;"></a>
+       <a href="https://www.facebook.com" style="color: black;"  target="_blank"> <img src="Images/fb.png" alt="" style="height: 30px; width: 30px;"></a>
        
-       <a href="https://www.x.com" style="color: black;"><img src="Images/x.png" alt="" style="height: 30px; width: 30px;"></a>
+       <a href="https://www.x.com" style="color: black;"  target="_blank"><img src="Images/x.png" alt="" style="height: 30px; width: 30px;"></a>
     </div>
 
 </footer>

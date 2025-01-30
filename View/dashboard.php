@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-echo "Welcome to the Admin Dashboard! <br>";
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -60,10 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .dashboard-container {
             background-color:rgb(103, 20, 34);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 0px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 1200px;
+            max-width: 1300px;
             overflow: auto;
             
         }
@@ -121,17 +120,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: #fff;
             background-color: rgb(36, 36, 36);
             padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.84);
             border-radius: 5px;
         }
 
         .logout-btn a:hover {
             background-color: #c82333;
+        } 
+        
+        .home-btn {
+            display: block;
+            width: 100%;
+            text-align: right;
+            margin-top: 0px;
+        }
+
+        .home-btn a {
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+            background-color: rgb(69, 14, 23);
+            border: 1px solid rgba(255, 255, 255, 0.84);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .home-btn a:hover {
+            background-color:rgba(200, 35, 51, 0.57);
         }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
+    <div class="home-btn">
+    <a href="../Home.php">Back to Home</a>
         <h1>Admin Dashboard</h1>
+       
+        </div>
+        <br>
+        <br>
         <table>
             <thead>
                 <tr>
@@ -139,6 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <th>Name</th>
                     <th>Surname</th>
                     <th>Email</th>
+                    <th>Role</th>
                     <th>Password</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -159,6 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <td>{$user['name']}</td>
                         <td>{$user['surname']}</td>
                         <td>{$user['email']}</td>
+                        <td>{$user['role']}</td>
                         <td>{$user['password']}</td>
                         <td class='action-links'><a href='edit.php?user_id={$user['user_id']}'>Edit</a></td>
                         <td class='action-links'><a href='delete.php?user_id={$user['user_id']}'>Delete</a></td>
@@ -175,11 +203,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Emri</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Mesazhi</th>
-                <th>Data</th>
+                <th>Message</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
@@ -206,7 +234,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </div>
 
         <div class="add-brand">
-    <h2>Shto Brand</h2>
+    <h2>Add Brand</h2>
     <form method="POST" enctype="multipart/form-data">
     <label for="name">Brand Name:</label>
     <input type="text" name="name" required>
@@ -224,15 +252,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </form>
 </div>
 <div class="brand-list">
-    <h2>Lista e Brendeve</h2>
+    <h2>List of Brands</h2>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Emri</th>
-                <th>Përshkrimi</th>
-                <th>Imazhi</th>
-                <th>Veprime</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Manage</th>
             </tr>
         </thead>
         <tbody>
@@ -259,10 +287,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tbody>
     </table>
 </div>
-
+   <br>
         <div class="logout-btn">
             <a href="../logout.php">Logout</a>
         </div>
+        <br>
     </div>
 </body>
 </html>

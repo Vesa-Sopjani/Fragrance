@@ -1,5 +1,5 @@
 <?php
-include_once '../Database/databaseConnection.php';
+include_once __DIR__ . '/../Database/databaseConnection.php';
   
 
 class BrandRepository {
@@ -53,7 +53,7 @@ public function getBrandById($id) {
         
      
         if ($stmt->execute()) {
-            echo "Brand added successfully!";
+            return;
         } else {
             echo "Error: " . $stmt->errorInfo()[2];
         }

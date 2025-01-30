@@ -15,8 +15,9 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
   echo "<a href='View/dashboard.php' style='color: white; text-decoration: none; margin-top: 10px;'>Go to Dashboard</a>";
 }
 echo "<a href='logout.php' style='color: white; text-decoration: none;'>Logout</a>";
-echo "</div>"; 
+echo "</div>";
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +35,7 @@ echo "</div>";
       <ul class="nav-lista">
         <li><a href="Home.php">Home</a></li>
         <li><a href="Brands.php">Brands</a></li>
-        <li><a href="Products.html">Products</a></li>
+        <li><a href="Products.php">Products</a></li>
         <li><a href="About.html">About Us</a></li>
         <li><a href="Contact.php">Contact Us</a></li>
       </ul>

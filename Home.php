@@ -23,7 +23,11 @@ echo "<a href='logout.php'>Logout</a>";
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-
+<?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+        <a href="View/dashboard.php">
+            <button class="dashboard-butoni" style="background-color: rgb(103, 20, 34) ; color: #010000 ; padding: 10px 20px; border-radius: 5px; ">Go to Admin Dashboard</button>
+        </a>
+    <?php endif; ?>
 <header>
     <nav>
         <div class="frag" id="fillimi-i-faqes">Fragrance</div>
@@ -88,6 +92,5 @@ echo "<a href='logout.php'>Logout</a>";
     </div>
 
 </footer>
-<script src="script.js"></script>
 </body>
 </html>

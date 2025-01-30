@@ -42,6 +42,25 @@ class UserRepository {
         return $users; 
     }
 
+    public function getAdmin($user_id) {
+        $conn = $this->connection;
+        $sql = "SELECT * FROM user WHERE user_id = :user_id AND role = 'admin'";
+        
+        try {
+            $statement = $conn->prepare($sql);
+            $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $statement->execute();
+            $adminData = $statement->fetch(PDO::FETCH_ASSOC);  
+            
+            return $adminData;
+        } catch (PDOException $e) {
+            echo "Error in getAdminById: " . $e->getMessage();
+            return [];
+        }
+    }
+    
+    
+
     
     function getUserById($user_id) {
         $conn = $this->connection;
@@ -97,7 +116,7 @@ class UserRepository {
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 
                 if (password_verify($password, $row['password'])) {
-                    session_start();
+           
     
                     $_SESSION['user_id'] = $row['user_id'];
                     $_SESSION['email'] = $row['email'];
@@ -105,6 +124,7 @@ class UserRepository {
     
                     return true; 
             }
+        }
             return false; 
         } catch (PDOException $e) {
             echo "Error in login: " . $e->getMessage();
@@ -112,4 +132,5 @@ class UserRepository {
         }
     }
 }
+
 ?>

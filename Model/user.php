@@ -1,8 +1,6 @@
 <?php
 
-session_start();
 class User {
-
     private $name;       
     private $surname;    
     private $email;      
@@ -36,12 +34,10 @@ class User {
         return $this->password;
     }
 
-    function setSessionRole($user) {
-        if (isset($user['role'])) { 
-            $_SESSION['role'] = $user['role'];
-        }
+    function isAdmin() {
+        return $_SESSION['role'] === 'admin';
 
+    }
 }
-
 
 ?>

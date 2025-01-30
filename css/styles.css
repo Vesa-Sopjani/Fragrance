@@ -14,6 +14,18 @@ body {
   
 }
 
+  .welcome {
+background-color:rgb(103, 20, 34);
+color: #fff;
+padding: 10px;
+text-align: center;
+}
+
+.logout {
+  color: #ffcc00;
+  text-decoration: none;
+  margin-left: 10px
+}
 header {
   background: #000000;
   padding: 10px 20px;

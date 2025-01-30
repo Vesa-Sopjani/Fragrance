@@ -1,11 +1,20 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    echo "Access denied. Only admins can view this page.";
-    header("Refresh: 3; URL=../View/login.php"); 
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
     exit;
 }
+
+if ($_SESSION['role'] !== 'admin') {
+    header("Location: dashboard.php");
+    exit;
+}
+
+
+echo "Welcome to the Admin Dashboard!";
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +23,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link rel="stylesheet" href="css/dashboard.css">
-    <title>Document</title>
+    <title>Dashboard</title>
+    <style>
+
+        body {
+            background-color: #333;
+        }
+    </style>
 </head>
 <body>
 
@@ -34,13 +49,14 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <?php 
 
         include_once '../Repository/userRepository.php';
-
+        
+        
         $userRepository = new UserRepository();
+        $user_id = $_SESSION['user_id'];
+        $user = $userRepository->getAdmin($user_id); 
 
-        $users = $userRepository->getAllUsers(); 
 
-
-        foreach($users as $user){
+        if ($user){
             echo 
             "
             <tr>

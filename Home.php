@@ -33,10 +33,10 @@ echo "</div>";
         <div class="frag" id="fillimi-i-faqes">Fragrance</div>
       <ul class="nav-lista">
         <li><a href="Home.php">Home</a></li>
-        <li><a href="Brands.html">Brands</a></li>
+        <li><a href="Brands.php">Brands</a></li>
         <li><a href="Products.html">Products</a></li>
         <li><a href="About.html">About Us</a></li>
-        <li><a href="Contact.html">Contact Us</a></li>
+        <li><a href="Contact.php">Contact Us</a></li>
       </ul>
     </nav>
   </header>

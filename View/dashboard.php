@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+echo "Welcome to the Admin Dashboard! <br>";
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -11,7 +12,30 @@ if ($_SESSION['role'] !== 'admin') {
     exit;
 }
 
-echo "Welcome to the Admin Dashboard!";
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    include_once '../Repository/brandRepository.php';
+    
+    
+    $name = $_POST['name'];
+    $description = $_POST['description'];
+    $image = $_FILES['image']['name']; 
+
+    
+    $target_dir = "../uploads";
+    $target_file = $target_dir . basename($image);
+    if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+        
+        $brandRepository = new BrandRepository();
+        $brandRepository->addBrand($name, $image, $description);
+    } else {
+        echo "Gabim në ngarkimin e imazhit!";
+    }
+
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -29,8 +53,7 @@ echo "Welcome to the Admin Dashboard!";
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
+           
             height: 100vh;
         }
 
@@ -41,6 +64,8 @@ echo "Welcome to the Admin Dashboard!";
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 1200px;
+            overflow: auto;
+            
         }
 
         h1 {
@@ -143,8 +168,100 @@ echo "Welcome to the Admin Dashboard!";
                 ?>
             </tbody>
         </table>
+
+        <div class="contact-form-entries">
+    <h2>Mesazhet nga Formulari i Kontaktit</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Emri</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Mesazhi</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            include_once '../Repository/contactFormRepository.php'; 
+            $contactFormRepository = new ContactFormRepository();
+            $entries = $contactFormRepository->getAllEntries(); 
+
+            foreach ($entries as $entry) {
+                echo "
+                <tr>
+                    <td>{$entry['id']}</td>
+                    <td>{$entry['name']}</td>
+                    <td>{$entry['email']}</td>
+                    <td>{$entry['phone']}</td>
+                    <td>{$entry['message']}</td>
+                    <td>{$entry['created_at']}</td>
+                </tr>
+                ";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
+        <div class="add-brand">
+    <h2>Shto Brand</h2>
+    <form method="POST" enctype="multipart/form-data">
+    <label for="name">Brand Name:</label>
+    <input type="text" name="name" required>
+    <br>
+
+    <label for="description">Description:</label>
+    <textarea name="description" required></textarea>
+    <br>
+
+    <label for="image">Image:</label>
+    <input type="file" name="image" required>
+    <br>
+
+    <button type="submit">Add Brand</button>
+</form>
+</div>
+<div class="brand-list">
+    <h2>Lista e Brendeve</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Emri</th>
+                <th>Përshkrimi</th>
+                <th>Imazhi</th>
+                <th>Veprime</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            include_once '../Repository/brandRepository.php';
+            $brandRepository = new BrandRepository();
+            $brands = $brandRepository->getAllBrands();
+
+            foreach ($brands as $brand) {
+                echo "
+                <tr>
+                    <td>{$brand['id']}</td>
+                    <td>{$brand['name']}</td>
+                    <td>{$brand['description']}</td>
+                    <td><img src='{$brand['image']}' alt='{$brand['name']}' width='100'></td>
+                    <td class='action-links'>
+                        <a href='../View/edit_brand.php?id={$brand['id']}'>Edit</a>
+                        <a href='../View/delete_brand.php?id={$brand['id']}'>Delete</a>
+                    </td>
+                </tr>
+                ";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
         <div class="logout-btn">
-            <a href="logout.php">Logout</a>
+            <a href="../logout.php">Logout</a>
         </div>
     </div>
 </body>

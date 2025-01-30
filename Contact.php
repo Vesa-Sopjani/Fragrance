@@ -1,3 +1,8 @@
+<?php
+if (isset($_GET['success']) && $_GET['success'] == 'true') {
+    echo "<p style='color:white; background-color:rgb(103, 20, 34)'>Mesazhi është dërguar me sukses!</p>";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,16 +21,16 @@
             <div class="frag" id="fillimi-i-faqes">Fragrance</div>
           <ul class="nav-lista">
             <li><a href="Home.php">Home</a></li>
-            <li><a href="Brands.html">Brands</a></li>
+            <li><a href="Brands.php">Brands</a></li>
             <li><a href="Products.html">Products</a></li>
             <li><a href="About.html">About Us</a></li>
-            <li><a href="Contact.html">Contact Us</a></li>
+            <li><a href="Contact.php">Contact Us</a></li>
           </ul>
         </nav>
       </header>
     <div class="container">
       <span class="big-circle"></span>
-      <img src="img/shape.png" class="square" alt="" />
+      
       <div class="form">
         <div class="contact-info">
           <h3 class="title">Let's get in touch</h3>
@@ -69,10 +74,10 @@
         </div>
 
         <div class="contact-form">
-          <span class="circle one"></span>
-          <span class="circle two"></span>
+        <span class="circle one"></span>
+        <span class="circle two"></span>
 
-          <form action="index.html" autocomplete="off">
+          <form action="View/contact_form.php" method="POST" autocomplete="off">
             <h3 class="title">Contact us</h3>
             <div class="input-container">
               <input type="text" name="name" class="input" />

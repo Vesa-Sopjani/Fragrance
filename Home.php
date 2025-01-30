@@ -11,6 +11,9 @@ if (!isset($_SESSION['user_id'])) {
 }
 echo "<div style='display: flex; justify-content: space-between; align-items: center; color: white; background-color: rgb(103, 20, 34); padding: 10px;'>";
 echo "Welcome, " . $_SESSION['email'] . "!</span>";
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+  echo "<a href='View/dashboard.php' style='color: white; text-decoration: none; margin-top: 10px;'>Go to Dashboard</a>";
+}
 echo "<a href='logout.php' style='color: white; text-decoration: none;'>Logout</a>";
 echo "</div>"; 
 ?>
@@ -24,11 +27,7 @@ echo "</div>";
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-        <a href="View/dashboard.php">
-            <button class="dashboard-butoni" style="background-color: rgb(103, 20, 34) ; color: #010000 ; padding: 10px 20px; border-radius: 5px; ">Go to Admin Dashboard</button>
-        </a>
-    <?php endif; ?>
+
 <header>
     <nav>
         <div class="frag" id="fillimi-i-faqes">Fragrance</div>

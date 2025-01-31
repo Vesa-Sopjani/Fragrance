@@ -1,3 +1,15 @@
+<?php
+// Konektimi në bazën e të dhënave
+include_once 'Database/databaseConnection.php';
+// Query për të marrë të gjithë paragrafët
+$sql = "SELECT * FROM paragraphs";
+$conn = DatabaseConnection::getInstance();
+$result = $conn->query($sql);
+
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +25,7 @@
        <li><a href="Home.php">Home</a></li>
        <li><a href="Brands.php">Brands</a></li>
        <li><a href="Products.php">Products</a></li>
-       <li><a href="About.html">About Us</a></li>
+       <li><a href="About.php">About Us</a></li>
        <li><a href="Contact.php">Contact Us</a></li>
        </ul>
      </nav>
@@ -29,6 +41,14 @@
       <h3>Our Mission</h3>
       <p>Our mission is to provide a deeper understanding of the art of perfumery and to make the world of fragrances accessible to all. We aim to educate our visitors about the complexity of perfumes, from their creation to their impact on our daily lives. Through detailed guides, expert insights, and an easy-to-navigate platform, we hope to inspire both newcomers and seasoned fragrance lovers to explore, appreciate, and find the perfect scent that resonates with them. Our goal is to foster a community that shares a passion for perfume and enhances the sensory experience it offers.</p>
     </section>
+    <?php
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+    echo '<section class="start">';
+    echo '<h1>' . $row['title'] . '</h1>';
+    echo '<p>' . $row['content'] . '</p>';
+    echo '</section>';
+}
+?>
     <div class="cont1">
         <div class="cont-text">
     <section class="people">

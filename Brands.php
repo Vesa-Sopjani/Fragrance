@@ -22,7 +22,7 @@ $brands = $brandRepository->getAllBrands();
             <li><a href="Home.php">Home</a></li>
             <li><a href="Brands.php">Brands</a></li>
             <li><a href="Products.php">Products</a></li>
-            <li><a href="About.html">About Us</a></li>
+            <li><a href="About.php">About Us</a></li>
             <li><a href="Contact.php">Contact Us</a></li>
           </ul>
         </nav>

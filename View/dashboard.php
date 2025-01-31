@@ -46,6 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_product'])) {
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
+$conn = DatabaseConnection::getInstance();
+$query = "SELECT * FROM paragraphs";
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$paragraphs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
@@ -204,6 +209,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_product'])) {
         <button type="submit" name="add_product">Add Product</button>
     </form>
 </div>
+<br>
+<h2>Add paragraph</h2>
+    
+<form action="../View/add_paragraph.php" method="POST">
+    <label for="title">Titulli:</label>
+    <input type="text" id="title" name="title" required>
+<br>
+    <label for="content">Përmbajtja:</label>
+    <textarea id="content" name="content" rows="4" required></textarea>
+
+    <button type="submit">Shto Paragraf</button>
+</form>
+<br>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Action</th>
+    </tr>
+    <?php foreach ($paragraphs as $para) : ?>
+        <tr>
+            <td><?php echo $para['id']; ?></td>
+            <td><?php echo htmlspecialchars($para['title']); ?></td>
+            <td><?php echo htmlspecialchars($para['content']); ?></td>
+            <td>
+                <a href="delete_paragraph.php?id=<?php echo $para['id']; ?>" style="color:red;"
+                   onclick="return confirm('A jeni i sigurt që dëshironi ta fshini këtë paragraf?');">
+                   Delete
+                </a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
 
 <div class="brand-list">
     <h2>List of Brands</h2>

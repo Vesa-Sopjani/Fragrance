@@ -13,29 +13,42 @@ if ($_SESSION['role'] !== 'admin') {
 
 
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_brand'])) {
     include_once '../Repository/brandRepository.php';
-    
-    
+    $brandRepository = new BrandRepository();
+        
     $name = $_POST['name'];
     $description = $_POST['description'];
-    $image = $_FILES['image']['name']; 
+    $image = $_POST['image']; 
 
     
-    $target_dir = "../uploads";
-    $target_file = $target_dir . basename($image);
-    if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-        
-        $brandRepository = new BrandRepository();
-        $brandRepository->addBrand($name, $image, $description);
-    } else {
-        echo "Gabim në ngarkimin e imazhit!";
-    }
+    $brandRepository->addBrand($name, $description, $image);
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
 
 }
 
+include_once '../Repository/ProductsRepository.php';
+$productsRepository = new ProductsRepository();
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_product'])) {
+    include_once '../Repository/ProductsRepository.php';
+    $productsRepository = new ProductsRepository();
+
+    $name = $_POST['name'];
+    $description = $_POST['description'];
+    $price = $_POST['price'];
+    $image = $_POST['image'];  
+
+    $productsRepository->addProduct($name, $description, $price, $image);
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,111 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
     <title>Admin Dashboard</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #222;
-            margin: 0;
-            padding: 0;
-            display: flex;
-           
-            height: 100vh;
-        }
-
-        .dashboard-container {
-            background-color:rgb(103, 20, 34);
-            padding: 20px;
-            border-radius: 0px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 1300px;
-            overflow: auto;
-            
-        }
-
-        h1 {
-            text-align: center;
-            color: #111;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: rgb(0, 0, 0);
-            color: white;
-        }
-
-        tr {
-            background-color:rgba(180, 180, 180, 0.22) ;
-        }
-
-        tr:hover {
-            background-color: rgb(180, 180, 180);
-        }
-
-        .action-links a {
-            text-decoration: none;
-            color:rgb(255, 0, 0);
-            margin-right: 10px;
-        }
-
-        .action-links a:hover {
-            text-decoration: underline;
-        }
-
-        .logout-btn {
-            display: block;
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .logout-btn a {
-            text-decoration: none;
-            color: #fff;
-            background-color: rgb(36, 36, 36);
-            padding: 10px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.84);
-            border-radius: 5px;
-        }
-
-        .logout-btn a:hover {
-            background-color: #c82333;
-        } 
-        
-        .home-btn {
-            display: block;
-            width: 100%;
-            text-align: right;
-            margin-top: 0px;
-        }
-
-        .home-btn a {
-            text-decoration: none;
-            color: rgb(255, 255, 255);
-            background-color: rgb(69, 14, 23);
-            border: 1px solid rgba(255, 255, 255, 0.84);
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
-
-        .home-btn a:hover {
-            background-color:rgba(200, 35, 51, 0.57);
-        }
-    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -198,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </table>
 
         <div class="contact-form-entries">
-    <h2>Mesazhet nga Formulari i Kontaktit</h2>
+    <h2>Contact From Messages</h2>
     <table>
         <thead>
             <tr>
@@ -245,12 +155,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <br>
 
     <label for="image">Image:</label>
-    <input type="file" name="image" required>
+    < <select name="image" required>
+        <?php
+        $imageDir = "../images/";
+        $images = scandir($imageDir);
+        
+        foreach ($images as $image) {
+            if ($image !== '.' && $image !== '..') {
+                echo "<option value='images/$image'>$image</option>";
+            }
+        }
+        ?>
+    </select>
     <br>
 
-    <button type="submit">Add Brand</button>
+    <button type="submit" name="add_brand">Add Brand</button>
 </form>
 </div>
+<div class="add-product">
+    <h2>Add Product</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="name">Product Name:</label>
+        <input type="text" name="name" required>
+        <br>
+
+        <label for="description">Description:</label>
+        <textarea name="description" required></textarea>
+        <br>
+
+        <label for="price">Price:</label>
+        <input type="number" name="price" step="0.01" required>
+        <br>
+
+        <label for="image">Image:</label>
+        <select name="image" required>
+        <?php
+        $imageDir = "../images/";
+        $images = scandir($imageDir);
+        
+        foreach ($images as $image) {
+            if ($image !== '.' && $image !== '..') {
+                echo "<option value='images/$image'>$image</option>";
+            }
+        }
+        ?>
+    </select>
+
+        <button type="submit" name="add_product">Add Product</button>
+    </form>
+</div>
+
 <div class="brand-list">
     <h2>List of Brands</h2>
     <table>
@@ -275,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <td>{$brand['id']}</td>
                     <td>{$brand['name']}</td>
                     <td>{$brand['description']}</td>
-                    <td><img src='{$brand['image']}' alt='{$brand['name']}' width='100'></td>
+                    <td><img src='../{$brand['image']}' alt='{$brand['name']}' width='100'></td>
                     <td class='action-links'>
                         <a href='../View/edit_brand.php?id={$brand['id']}'>Edit</a>
                         <a href='../View/delete_brand.php?id={$brand['id']}'>Delete</a>
@@ -287,6 +241,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tbody>
     </table>
 </div>
+<div class="product-list">
+    <h2>List of Products</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>Manage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $products = $productsRepository->getAllProducts();
+            foreach ($products as $product) {
+                echo "
+                <tr>
+                    <td>{$product['id']}</td>
+                    <td>{$product['name']}</td>
+                    <td>{$product['description']}</td>
+                    <td>{$product['price']}€</td>
+                    <td><img src='../{$product['image']}' alt='Product Image' width='100'></td>
+                    <td class='action-links'>
+                        <a href='../View/edit_product.php?id={$product['id']}'>Edit</a>
+                        <a href='../View/delete_product.php?id={$product['id']}'>Delete</a>
+                    </td>
+                </tr>
+                ";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
    <br>
         <div class="logout-btn">
             <a href="../logout.php">Logout</a>

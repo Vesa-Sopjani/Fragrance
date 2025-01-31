@@ -6,8 +6,7 @@ class UserRepository {
     private $connection;
 
     public function __construct() {
-        $db = new DatabaseConnection();
-        $this->connection = $db->getConnection();
+        $this->connection = DatabaseConnection::getInstance();
     }
 
     function insertUser($user) {

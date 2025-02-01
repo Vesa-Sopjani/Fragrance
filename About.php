@@ -3,7 +3,7 @@ include_once 'Database/databaseConnection.php';
 $sql = "SELECT * FROM paragraphs";
 $conn = DatabaseConnection::getInstance()->getConnection();
 $result = $conn->prepare($sql);
-
+$result->execute();
 
 
 ?>

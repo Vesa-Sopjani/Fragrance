@@ -1,11 +1,12 @@
 <?php
 include_once '../Database/DatabaseConnection.php'; 
 
-$conn = DatabaseConnection::getInstance();
+$conn = DatabaseConnection::getInstance()->getConnection(); 
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
+   
     $query = "DELETE FROM paragraphs WHERE id = :id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $id);

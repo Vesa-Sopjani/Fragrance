@@ -24,7 +24,7 @@ class DatabaseConnection {
         if (self::$instance === null) {
             self::$instance = new DatabaseConnection();
         }
-        return self::$instance->conn;
+        return self::$instance;
     }
     public function getConnection() {
         return $this->conn;

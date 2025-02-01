@@ -1,55 +1,67 @@
 <?php
+session_start(); 
 require_once __DIR__ . '/Repository/ProductsRepository.php';
 require_once __DIR__ . '/Database/databaseConnection.php';
 
-$conn = DatabaseConnection::getInstance();
+$conn = DatabaseConnection::getInstance()->getConnection();
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_id'])) {
-    $product_id = $_POST['product_id'];
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id']; 
 
-    $stmt = $conn->prepare("SELECT quantity FROM cart WHERE product_id = ?");
-    $stmt->execute([$product_id]);
-    $existingProduct = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_id'])) {
+        $product_id = $_POST['product_id'];
 
-    if ($existingProduct) {
-        $newQuantity = $existingProduct['quantity'] + 1;
-        $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE product_id = ?");
-        $stmt->execute([$newQuantity, $product_id]);
-    } else {
-        $stmt = $conn->prepare("INSERT INTO cart (product_id, quantity) VALUES (?, 1)");
-        $stmt->execute([$product_id]);
-    }
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
+        $stmt = $conn->prepare("SELECT quantity FROM cart WHERE user_id = ? AND product_id = ?");
+        $stmt->execute([$user_id, $product_id]);
+        $existingProduct = $stmt->fetch(PDO::FETCH_ASSOC);
 
-}
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['decrease_product_id'])) {
-    $product_id = $_POST['decrease_product_id'];
-
-    $stmt = $conn->prepare("SELECT quantity FROM cart WHERE product_id = ?");
-    $stmt->execute([$product_id]);
-    $existingProduct = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($existingProduct && $existingProduct['quantity'] > 1) {
-        $newQuantity = $existingProduct['quantity'] - 1;
-        $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE product_id = ?");
-        $stmt->execute([$newQuantity, $product_id]);
-    } elseif ($existingProduct && $existingProduct['quantity'] == 1) {
-        $stmt = $conn->prepare("DELETE FROM cart WHERE product_id = ?");
-        $stmt->execute([$product_id]);
+        if ($existingProduct) {
+            $newQuantity = $existingProduct['quantity'] + 1;
+            $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?");
+            $stmt->execute([$newQuantity, $user_id, $product_id]);
+        } else {
+            $stmt = $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, 1)");
+            $stmt->execute([$user_id, $product_id]);
+        }
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
     }
 
-    header("Location: " . $_SERVER['PHP_SELF']);
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['decrease_product_id'])) {
+        $product_id = $_POST['decrease_product_id'];
+
+        $stmt = $conn->prepare("SELECT quantity FROM cart WHERE user_id = ? AND product_id = ?");
+        $stmt->execute([$user_id, $product_id]);
+        $existingProduct = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($existingProduct && $existingProduct['quantity'] > 1) {
+            $newQuantity = $existingProduct['quantity'] - 1;
+            $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?");
+            $stmt->execute([$newQuantity, $user_id, $product_id]);
+        } elseif ($existingProduct && $existingProduct['quantity'] == 1) {
+            $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ? AND product_id = ?");
+            $stmt->execute([$user_id, $product_id]);
+        }
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    }
+
+    $stmt = $conn->prepare("SELECT p.id, p.name, p.price, p.image, c.quantity 
+                            FROM cart c 
+                            JOIN products p ON c.product_id = p.id
+                            WHERE c.user_id = ?");
+    $stmt->execute([$user_id]);
+    $cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $totalPrice = 0;
+    foreach ($cartItems as $item) {
+        $totalPrice += $item['price'] * $item['quantity']; 
+    }
+} else {
+    echo "Please log in to manage your cart.";
     exit;
 }
 
-$stmt = $conn->query("SELECT p.id, p.name, p.price, p.image, c.quantity FROM cart c JOIN products p ON c.product_id = p.id");
-$cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$totalPrice = 0;
-foreach ($cartItems as $item) {
-    $totalPrice += $item['price'] * $item['quantity']; 
-}
 ?>
 
 <!DOCTYPE html>
@@ -125,15 +137,7 @@ foreach ($cartItems as $item) {
             background:rgb(126, 24, 24); 
         }
 
-        .checkout:hover {
-            background: #d60000; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-        }
-
-        .checkout {
-            background: rgb(89, 14, 14);
-            color: white;
-        }
+       
     </style>
 </head>
 <body>
@@ -164,7 +168,6 @@ foreach ($cartItems as $item) {
 
     <div class="cart-buttons">
         <a href="products.php" class="continue-shopping">Continue Shopping</a>
-        <a href="#" class="checkout">Proceed to Checkout</a>
     </div>
 </body>
 </html>

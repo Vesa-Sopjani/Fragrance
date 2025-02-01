@@ -3,7 +3,7 @@ class ContactFormRepository {
     private $connection;
 
     public function __construct() {
-        $this->connection = DatabaseConnection::getInstance();
+        $this->connection = DatabaseConnection::getInstance()->getConnection();
     }
 
     public function getAllEntries() {

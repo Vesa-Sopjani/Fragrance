@@ -8,8 +8,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $db = new databaseConnection();
-    $connection = $db->getConnection();
+  $connection = DatabaseConnection::getInstance();
     $userRepository = new userRepository($connection);  
 
     $name = filter_input(INPUT_POST, 'emri', FILTER_SANITIZE_STRING);
@@ -57,12 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php endif; ?>
 
         <div class="form-group">
-          <label for="emri" class="tekst">Emri</label>
+          <label for="emri" class="tekst">Name</label>
           <input type="text" id="emri" name="emri" placeholder="Enter your name" required>
         </div>
         
         <div class="form-group">
-          <label for="mbiemri" class="tekst">Mbiemri</label>
+          <label for="mbiemri" class="tekst">Surname</label>
           <input type="text" id="mbiemri" name="mbiemri" placeholder="Enter your last name" required>
         </div>
         

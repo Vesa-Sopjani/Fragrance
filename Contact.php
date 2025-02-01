@@ -1,6 +1,6 @@
 <?php
 if (isset($_GET['success']) && $_GET['success'] == 'true') {
-    echo "<p style='color:white; background-color:rgb(103, 20, 34)'>Mesazhi është dërguar me sukses!</p>";
+    echo "<p style='color:white; background-color:rgb(103, 20, 34)'>Message sent successfully!</p>";
 }
 ?>
 <!DOCTYPE html>

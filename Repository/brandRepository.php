@@ -6,7 +6,7 @@ class BrandRepository {
     private $connection;
 
     public function __construct() {
-        $this->connection = DatabaseConnection::getInstance(); 
+        $this->connection = DatabaseConnection::getInstance()->getConnection(); 
     }
 
 
@@ -26,8 +26,9 @@ public function getBrandById($id) {
         $conn = $this->connection;
     
         $sql = "SELECT * FROM brand";
-        $statement = $conn->query($sql);  
-    
+        $statement = $conn->prepare($sql);
+        $statement->execute();
+
         if ($statement) {
            
             $brands = $statement->fetchAll(PDO::FETCH_ASSOC);

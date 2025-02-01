@@ -1,10 +1,8 @@
 <?php
-// Konektimi në bazën e të dhënave
 include_once 'Database/databaseConnection.php';
-// Query për të marrë të gjithë paragrafët
 $sql = "SELECT * FROM paragraphs";
-$conn = DatabaseConnection::getInstance();
-$result = $conn->query($sql);
+$conn = DatabaseConnection::getInstance()->getConnection();
+$result = $conn->prepare($sql);
 
 
 

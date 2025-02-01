@@ -5,14 +5,24 @@ class ProductsRepository {
     private $conn;
 
     public function __construct() {
-        $this->conn = DatabaseConnection::getInstance();
+        $this->conn = DatabaseConnection::getInstance()->getConnection(); 
     }
 
-    public function addProduct($name, $description, $price, $image) {
-        $sql = "INSERT INTO products (name, description, price, image) VALUES (?, ?, ?, ?)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$name, $description, $price, $image]);
-    }
+public function addProduct($name, $description, $price, $image, $added_by) {
+    $query = "INSERT INTO products (name, description, price, image, added_by) 
+              VALUES (:name, :description, :price, :image, :added_by)";
+
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':description', $description);
+    $stmt->bindParam(':price', $price);
+    $stmt->bindParam(':image', $image);
+    $stmt->bindParam(':added_by', $added_by); 
+
+    $stmt->execute();
+}
+
     
     public function getProductById($id) {
         $sql = "SELECT * FROM products WHERE id = :id";
@@ -23,11 +33,19 @@ class ProductsRepository {
     }
 
     public function getAllProducts() {
-        $sql = "SELECT * FROM products";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "
+            SELECT p.id, p.name, p.description, p.price, p.image, u.email 
+            FROM products p 
+            JOIN user u ON p.added_by = u.user_id
+        ";
+        
+        $stmt = $this->conn->prepare($sql); 
+        $stmt->execute(); 
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
     }
+    
+
     public function updateProduct($id, $name = null, $image = null, $description = null, $price = null) {
         $query = "UPDATE products SET ";
         $params = [];

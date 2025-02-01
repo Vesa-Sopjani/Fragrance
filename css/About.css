@@ -146,7 +146,7 @@
         .slider {
           position: relative;
           width: 100%;
-          max-width: 600px; /* Adjust as needed */
+          max-width: 600px; 
           margin: 20px auto;
           text-align: center;
       }

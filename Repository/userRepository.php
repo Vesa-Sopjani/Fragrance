@@ -6,8 +6,9 @@ class UserRepository {
     private $connection;
 
     public function __construct() {
-        $this->connection = DatabaseConnection::getInstance();
+        $this->connection = DatabaseConnection::getInstance()->getConnection(); 
     }
+    
 
     function insertUser($user) {
         $conn = $this->connection;
@@ -115,21 +116,20 @@ class UserRepository {
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 
                 if (password_verify($password, $row['password'])) {
-           
-    
                     $_SESSION['user_id'] = $row['user_id'];
                     $_SESSION['email'] = $row['email'];
                     $_SESSION['role'] = $row['role']; 
     
                     return true; 
+                } 
             }
-        }
             return false; 
         } catch (PDOException $e) {
-            echo "Error in login: " . $e->getMessage();
-            return false;
+            echo "Error: " . $e->getMessage();
+            return false; 
         }
     }
+    
 }
 
 ?>

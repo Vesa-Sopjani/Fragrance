@@ -1,7 +1,10 @@
 <?php
 session_start();
-
+include_once '../Database/databaseConnection.php';
 include_once '../Repository/userRepository.php'; 
+
+$db = DatabaseConnection::getInstance();
+$connection = $db->getConnection(); 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $userRepo = new userRepository();
@@ -15,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       echo "Session User ID: " . $_SESSION['user_id'] . "<br>";
       echo "Session Email: " . $_SESSION['email'] . "<br>";
       
-      header("Refresh: 3; URL=../Home.php"); 
+      header("Refresh: 1; URL=../Home.php"); 
       exit;
   }
   
@@ -82,7 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         const passwordInput = document.getElementById('password');
         let errorMessages = [];
 
-        // Validation logic
         if (!emailInput.value.trim()) errorMessages.push("Email is required.");
         if (!passwordInput.value.trim()) errorMessages.push("Password is required.");
 

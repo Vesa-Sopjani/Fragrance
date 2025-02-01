@@ -1,7 +1,7 @@
 <?php
 include_once '../Database/databaseConnection.php';  
 
-$conn = DatabaseConnection::getInstance();
+$conn = DatabaseConnection::getInstance()->getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = $_POST['title'];
